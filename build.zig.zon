@@ -1,0 +1,23 @@
+.{
+    .name = .kosm_dunst,
+    .version = "0.0.0",
+    .fingerprint = 0x5d5120e9ede4556c, // Changing this has security and trust implications.
+    .minimum_zig_version = "0.17.0",
+    .dependencies = .{
+        .kosm_ini = .{
+            .url = "git+https://git.nnstdios.com/nnra6864/kosm_ini?ref=master#a33c98926a315b74ef1b3932deac1b90673e8cb1",
+            .hash = "kosm_ini-0.0.0-qA7bnX-4AAApae5E-Faq8l7OlHOjBQL8jc-mu0keiiUx",
+        },
+        .kosm = .{
+            .url = "git+https://git.nnstdios.com/nnra6864/kosm?ref=master#fa73a748b0ab79c5e95fafffe95bf0257558eeaa",
+            .hash = "kosm-0.0.0-YCShskyXCgAoiy1Hh4AvxwI1YtHs5pB4jh_g11Iz0PmF",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "root.zig",
+        "App.zig",
+        "README.md",
+    },
+}
