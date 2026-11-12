@@ -8,9 +8,9 @@ The app writes only the options that are set to the drop-in
 delete the colors and font `dunstrc` sets itself so there is one place for them. After every
 apply the app runs `dunstctl reload`; with no dunst running, kosm warns and carries on.
 
-`from(theme)` sets every urgency's colors: the background from black (white in light mode)
+`from(theme)` sets every urgency's colors: the background from the theme's background role
 with the theme's `background_alpha`, the text from the foreground (muted for low urgency), the
-frame cyan (red when critical) and the progress bar a strong foreground. The separator takes
+frame the accent (the error role when critical) and the progress bar a strong foreground. The separator takes
 the frame's color. The font is left alone.
 
 ## Fields

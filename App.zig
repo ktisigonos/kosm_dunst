@@ -65,25 +65,24 @@ pub const Urgency = struct {
     highlight: ?kosm.Color = null,
 };
 
-/// Colors from the theme for every urgency: the background from black (white in light mode)
-/// with the theme's `background_alpha`, the text from the foreground (muted for low urgency),
-/// the frame cyan (red when critical), the progress bar a strong foreground and the separator
+/// Colors from the theme for every urgency: the background from the background role with the
+/// theme's `background_alpha`, the text from the foreground (muted for low urgency), the frame
+/// the accent (the error role when critical), the progress bar a strong foreground and the separator
 /// the frame's color. The font is left alone.
 pub fn from(theme: kosm.Theme) App {
-    const palette = theme.palette;
     const variations = theme.variations;
-    const foreground = if (theme.mode == .dark) palette.white else palette.black;
-    const background = theme.asBackground(if (theme.mode == .dark) palette.black else palette.white);
+    const foreground = theme.roles.foreground;
+    const background = theme.asBackground(theme.roles.background);
     const normal: Urgency = .{
         .background = background,
         .foreground = foreground,
-        .frame_color = palette.cyan,
+        .frame_color = theme.roles.accent,
         .highlight = variations.emphasis.strong.apply(foreground),
     };
     var low = normal;
     low.foreground = variations.emphasis.muted.apply(foreground);
     var critical = normal;
-    critical.frame_color = palette.red;
+    critical.frame_color = theme.roles.@"error";
     return .{
         .global = .{ .separator_color = .frame },
         .urgency_low = low,
@@ -190,7 +189,7 @@ test "the font and each urgency's colors are written quoted, extras in their sec
     var fixture: Fixture = undefined;
     try fixture.init();
     defer fixture.deinit();
-    var theme = kosm.Theme.from(.{ .black = kosm.hex("041c26"), .white = kosm.hex("a3c5cc"), .cyan = kosm.hex("2d8699"), .red = kosm.hex("993d49") }, .dark);
+    var theme = kosm.Theme.from(.{ .palette = .{ .black = kosm.hex("041c26"), .white = kosm.hex("a3c5cc"), .cyan = kosm.hex("2d8699"), .red = kosm.hex("993d49") }, .mode = .dark });
     theme.background_alpha = 0.5;
     var app = from(theme);
     app.global.font = .{ .families = &.{ "Maple Mono Normal NFP", "Noto Color Emoji" }, .size = 13 };
