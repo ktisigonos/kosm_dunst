@@ -18,6 +18,8 @@
         "build.zig.zon",
         "root.zig",
         "App.zig",
+        "Global.zig",
+        "Urgency.zig",
         "README.md",
     },
 }

@@ -1,9 +1,9 @@
-//! Dunst: its font and notification colors, in a drop-in file dunst reads after dunstrc.
+//! Dunst: every documented option, in a drop-in file dunst reads after dunstrc.
 
 const std = @import("std");
 const kosm_ini = @import("kosm_ini");
 
-/// Dunst's font and colors; build one with `from`.
+/// Dunst's options; build one with `from`.
 pub const App = @import("App.zig");
 /// Colors from the theme.
 pub const from = App.from;
