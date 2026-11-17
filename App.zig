@@ -1,4 +1,4 @@
-//! Dunst's font and notification colors. `generate` writes the set ones to `file`, a drop-in
+//! Dunst's font, frame, corners and notification colors. `generate` writes the set ones to `file`, a drop-in
 //! dunst reads after `dunstrc`, so they win over it; null options are left to dunstrc and
 //! dunst's defaults. Field names are dunst's.
 
@@ -21,7 +21,7 @@ urgency_normal: Urgency = .{},
 /// Colors of critical notifications.
 urgency_critical: Urgency = .{},
 /// Options the app doesn't cover, by `section.option`:
-/// `.{ .path = "global.corner_radius", .value = .{ .integer = 10 } }`. One that repeats a set
+/// `.{ .path = "global.gap_size", .value = .{ .integer = 4 } }`. One that repeats a set
 /// option or another extra fails the apply. Default: none.
 extra: []const kosm.Setting = &.{},
 
@@ -31,6 +31,11 @@ pub const Global = struct {
     font: ?Font = null,
     /// `separator_color`: the line between stacked notifications. null: dunst's default, `.frame`.
     separator_color: ?SeparatorColor = null,
+    /// `frame_width`: the frame around each notification, in pixels. null: dunst's default, 3.
+    frame_width: ?u32 = null,
+    /// `corner_radius`: how round each notification's corners are, in pixels. null: dunst's
+    /// default, 0.
+    corner_radius: ?u32 = null,
 };
 
 /// A Pango font description, written `Family, Fallback 13`.
@@ -117,6 +122,7 @@ fn section(output: *kosm.Output, file: []const u8, options: anytype) ![]const ko
         if (@field(options, name)) |option| {
             const value: kosm.Value = switch (@TypeOf(option)) {
                 kosm.Color => .{ .color = option },
+                u32 => .{ .integer = option },
                 Font => .{ .string = try fontDescription(output, file, option) },
                 SeparatorColor => switch (option) {
                     .color => |color| .{ .color = color },
@@ -185,7 +191,7 @@ const Fixture = struct {
     }
 };
 
-test "the font and each urgency's colors are written quoted, extras in their section" {
+test "the font, frame width, corners and each urgency's colors are written, extras in their section" {
     var fixture: Fixture = undefined;
     try fixture.init();
     defer fixture.deinit();
@@ -193,7 +199,9 @@ test "the font and each urgency's colors are written quoted, extras in their sec
     theme.background_alpha = 0.5;
     var app = from(theme);
     app.global.font = .{ .families = &.{ "Maple Mono Normal NFP", "Noto Color Emoji" }, .size = 13 };
-    app.extra = &.{.{ .path = "global.corner_radius", .value = .{ .integer = 10 } }};
+    app.global.frame_width = 2;
+    app.global.corner_radius = 10;
+    app.extra = &.{.{ .path = "global.gap_size", .value = .{ .integer = 4 } }};
     try app.apply(&fixture.output);
 
     const written = fixture.planned();
@@ -201,7 +209,9 @@ test "the font and each urgency's colors are written quoted, extras in their sec
         \\[global]
         \\font = "Maple Mono Normal NFP, Noto Color Emoji 13"
         \\separator_color = "frame"
+        \\frame_width = 2
         \\corner_radius = 10
+        \\gap_size = 4
         \\
         \\[urgency_low]
         \\background = "#041c2680"

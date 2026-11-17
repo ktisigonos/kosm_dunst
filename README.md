@@ -21,5 +21,7 @@ the frame's color. The font is left alone.
 | `format` | the adapter's: `#rrggbbaa`, `true`/`false` |
 | `global.font` | null; `.{ .families = &.{ "Iosevka", "Noto Color Emoji" }, .size = 13 }` |
 | `global.separator_color` | null; `.auto`, `.foreground`, `.frame` or `.{ .color = ... }` |
+| `global.frame_width` | null (dunst's 3); the frame around each notification, in pixels |
+| `global.corner_radius` | null (dunst's 0); each notification's corner radius, in pixels |
 | `urgency_low`, `urgency_normal`, `urgency_critical` | `background`, `foreground`, `frame_color`, `highlight`; null leaves each to dunst |
-| `extra` | none; other options by `section.option`: `.{ .path = "global.corner_radius", .value = .{ .integer = 10 } }` |
+| `extra` | none; other options by `section.option`: `.{ .path = "global.gap_size", .value = .{ .integer = 4 } }` |
