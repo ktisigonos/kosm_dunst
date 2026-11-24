@@ -231,10 +231,10 @@ pub fn from(theme: kosm.Theme) App {
     };
 }
 
-/// Makes the running dunst re-read its config. With no dunst running, kosm only warns.
+/// Makes the running dunst re-read its config; with no dunst running there is nothing to do.
 pub fn reload(self: App, reloader: *kosm.Reloader) !void {
     _ = self;
-    try reloader.run(&.{ "dunstctl", "reload" });
+    try reloader.runIfRunning("dunst", &.{ "dunstctl", "reload" });
 }
 
 /// Writes every set option to `file`, then the extras.
