@@ -15,6 +15,8 @@ with the theme's `background_alpha`, the text from the foreground (muted for low
 frame the accent (the error role when critical) and the progress bar a strong foreground. The separator takes
 the frame's color. The font is left alone.
 
+`kosm doctor` checks that dunst is installed, as the `dunst` command.
+
 ## Fields
 
 Every option is null by default, which leaves it to `dunstrc` and dunst's defaults. Names are

@@ -237,6 +237,12 @@ pub fn reload(self: App, reloader: *kosm.Reloader) !void {
     try reloader.runIfRunning("dunst", &.{ "dunstctl", "reload" });
 }
 
+/// What `kosm doctor` checks: dunst installed, as the `dunst` command.
+pub fn checkup(self: App) kosm.Checkup {
+    _ = self;
+    return .{ .program = .{ .command = "dunst" } };
+}
+
 /// Writes every set option to `file`, then the extras.
 pub fn apply(self: App, output: *kosm.Output) !void {
     var sections: std.ArrayList(kosm.Value.Entry) = .empty;
